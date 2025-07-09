@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-lang-key="regFormTitle">Registration Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        
+        <div class="header">
+            <div class="header-content">
+                <h1 data-lang-key="regFormTitle">📝 Registration Form</h1>
+                <p class="header-subtitle" data-lang-key="headerSubtitle">Please fill in your information accurately</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="timer-container">
+                <i class="fas fa-clock timer-icon"></i>
+                <span class="timer-label" data-lang-key="timeRemaining">Time Remaining:</span>
+                <span id="countdown">--:--:--</span>
+            </div>
+            <div class="language-switcher">
+                <button id="lang-en" class="active">🇺🇸 EN</button>
+                <button id="lang-km">🇰🇭 KM</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="registration-prompt">
+                <h2>🎓 Welcome to Our School!</h2>
+                <p data-lang-key="alreadyRegistered">Have you already registered with us before?</p>
+                <div class="btn-group">
+                    <button id="btnYes" class="btn btn-outlined" data-lang-key="yes">
+                        <i class="fas fa-check"></i> Yes
+                    </button>
+                    <button id="btnNo" class="btn btn-contained pulse-animation" data-lang-key="no">
+                        <i class="fas fa-user-plus"></i> No
+                    </button>
+                </div>
+            </div>
+
+            <form id="regForm" novalidate>
+                <div class="form-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0% Complete</div>
+                </div>
+
+                <div class="form-sections-wrapper">
+
+                    <div class="section">
+                        <div class="section-content">
+                            <h2 data-lang-key="studentInfo">
+                                <i class="fas fa-user-graduate"></i>Student Information
+                            </h2>
+                            <div class="form-grid">
+                                <div class="form-control">
+                                    <label for="txt_kName" data-lang-key="khmerName">Khmer Name</label>
+                                    <input type="text" id="txt_kName" name="txt_kName" placeholder="Enter your Khmer name" required />
+                                </div>
+                                <div class="form-control">
+                                    <label for="txt_eName" data-lang-key="englishName">English Name</label>
+                                    <input type="text" id="txt_eName" name="txt_eName" placeholder="Enter your English name" required />
+                                </div>
+                                <div class="form-control">
+                                    <label for="sfComboBox_gender" data-lang-key="gender">Gender</label>
+                                    <select id="sfComboBox_gender" name="sfComboBox_gender" required>
+                                        <option value="" data-lang-key="selectGender" disabled selected>Select your gender</option>
+                                        <option value="ប្រុស" data-lang-key="male">Male</option>
+                                        <option value="ស្រី" data-lang-key="female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="form-control">
+                                    <label for="sfDateValue_dob" data-lang-key="dob">Date of Birth</label>
+                                    <input type="date" id="sfDateValue_dob" name="sfDateValue_dob" required />
+                                </div>
+                                <div class="form-control">
+                                    <label for="txt_student_phone" data-lang-key="studentPhone">Student Phone</label>
+                                    <input type="tel" id="txt_student_phone" name="txt_student_phone" placeholder="Enter your phone number" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="txt_previous_school" data-lang-key="previousSchool">Previous School</label>
+                                    <input type="text" id="txt_previous_school" name="txt_previous_school" placeholder="Enter your previous school" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="fatherInfo" class="section">
+                         <div class="section-content">
+                            <h2 data-lang-key="fatherInfo">
+                                <i class="fas fa-user-tie"></i>Father Information
+                            </h2>
+                            <div class="form-grid">
+                                <div class="form-control">
+                                    <label for="txt_father_name" data-lang-key="fatherName">Father's Name</label>
+                                    <input type="text" id="txt_father_name" name="txt_father_name" placeholder="Enter father's name" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="txt_father_phone" data-lang-key="fatherPhone">Father's Phone</label>
+                                    <input type="tel" id="txt_father_phone" name="txt_father_phone" placeholder="Enter father's phone" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="txt_father_job" data-lang-key="fatherJob">Father's Job</label>
+                                    <input type="text" id="txt_father_job" name="txt_father_job" placeholder="Enter father's job" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="motherInfo" class="section">
+                         <div class="section-content">
+                            <h2 data-lang-key="motherInfo">
+                                <i class="fas fa-female"></i>Mother Information
+                            </h2>
+                            <div class="form-grid">
+                                <div class="form-control">
+                                    <label for="txt_mother_name" data-lang-key="motherName">Mother's Name</label>
+                                    <input type="text" id="txt_mother_name" name="txt_mother_name" placeholder="Enter mother's name" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="txt_mother_phone" data-lang-key="motherPhone">Mother's Phone</label>
+                                    <input type="tel" id="txt_mother_phone" name="txt_mother_phone" placeholder="Enter mother's phone" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="txt_mother_job" data-lang-key="motherJob">Mother's Job</label>
+                                    <input type="text" id="txt_mother_job" name="txt_mother_job" placeholder="Enter mother's job" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="addressInfo" class="section">
+                         <div class="section-content">
+                            <h2 data-lang-key="addressInfo">
+                                <i class="fas fa-map-marker-alt"></i>Address Information
+                            </h2>
+                            <div class="form-grid">
+                                <div class="form-control">
+                                    <label for="sfComboBox_parent_province" data-lang-key="province">Province</label>
+                                    <input type="text" id="sfComboBox_parent_province" name="sfComboBox_parent_province" placeholder="Enter province" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="sfComboBox_parent_district" data-lang-key="district">District</label>
+                                    <input type="text" id="sfComboBox_parent_district" name="sfComboBox_parent_district" placeholder="Enter district" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="sfComboBox_parent_commune" data-lang-key="commune">Commune</label>
+                                    <input type="text" id="sfComboBox_parent_commune" name="sfComboBox_parent_commune" placeholder="Enter commune" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="sfComboBox_parent_village" data-lang-key="village">Village</label>
+                                    <input type="text" id="sfComboBox_parent_village" name="sfComboBox_parent_village" placeholder="Enter village" />
+                                </div>
+                                <div class="form-control">
+                                    <label for="f_email" data-lang-key="email">Email</label>
+                                    <input type="email" id="f_email" name="f_email" placeholder="Enter email address" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-contained submit-btn" data-lang-key="submit">
+                    <i class="fas fa-paper-plane"></i> Submit Registration
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="messageBox" class="message-box">
+        <div class="message-content">
+            <div class="message-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="message-text">
+                <h3 class="message-title">Success!</h3>
+                <p class="message-description">Your registration has been submitted successfully.</p>
+            </div>
+            <button class="message-close" onclick="closeMessageBox()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
