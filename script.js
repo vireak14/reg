@@ -2,61 +2,154 @@ let isNewStudent = false;
 let currentLang = "en";
 
 const translations = {
-      en: {
-          regFormTitle: "📝 Registration Form",
-          headerSubtitle: "Please fill in your information accurately",
-          agreeToTerms: 'I agree to the <a href="https://telegra.ph/Policy-07-09-6" target="_blank">School Policy</a> and <a href="https://telegra.ph/Policy-07-09-6" target="_blank">Conditions</a>',
-          timeRemaining: "Time Remaining:",
-          linkInvalidHeading: "Link Expired",
-          linkInvalidText: "This registration link has already been used or is invalid. Please contact us if you believe this is an error.",
-          // Placeholders & Other keys...
-          kNamePlaceholder: "Enter your Khmer name",
-          eNamePlaceholder: "Enter your English name",
-          phonePlaceholder: "Enter phone number",
-          schoolPlaceholder: "Enter school name",
-          namePlaceholder: "Enter full name",
-          jobPlaceholder: "Enter job title",
-          provincePlaceholder: "Enter province",
-          districtPlaceholder: "Enter district",
-          communePlaceholder: "Enter commune",
-          villagePlaceholder: "Enter village",
-          emailPlaceholder: "Enter email address",
-          // Validation Messages
-          kNameInvalid: "Must be Khmer letters with at least one space.",
-          eNameInvalid: "Must be English letters with at least one space.",
-          requiredField: "This field is required.",
-          parentInfoMissing: "Please provide complete info (Name and Phone) for at least one parent.",
-          addressInfoMissing: "Please enter Province, District, and Commune.",
-          submitSuccess: "Registration submitted successfully!",
-      },
-      km: {
-          regFormTitle: "📝 ទម្រង់ចុះឈ្មោះ",
-          headerSubtitle: "សូមបំពេញព័ត៌មានរបស់អ្នកឱ្យបានត្រឹមត្រូវ",
-          agreeToTerms: 'ខ្ញុំយល់ព្រមតាម <a href="https://telegra.ph/Policy-07-09-6" target="_blank">គោលការណ៍របស់សាលា</a> និង <a href="https://telegra.ph/Policy-07-09-6" target="_blank">លក្ខខណ្ឌដែលបានចែង</a>',
-          timeRemaining: "ពេលវេលាដែលនៅសល់៖",
-          linkInvalidHeading: "តំណភ្ជាប់បានផុតកំណត់",
-          linkInvalidText: "តំណភ្ជាប់ចុះឈ្មោះនេះត្រូវបានប្រើប្រាស់រួចហើយ ឬមិនត្រឹមត្រូវ។ សូមទាក់ទងមកយើងខ្ញុំ ប្រសិនបើលោកអ្នកជឿថានេះជាកំហុស។",
-          // Placeholders & Other keys...
-          kNamePlaceholder: "បញ្ចូលឈ្មោះភាសាខ្មែររបស់អ្នក។",
-          eNamePlaceholder: "បញ្ចូលឈ្មោះភាសាអង់គ្លេសរបស់អ្នក។",
-          phonePlaceholder: "បញ្ចូលលេខទូរស័ព្ទ",
-          schoolPlaceholder: "បញ្ចូលឈ្មោះសាលា",
-          namePlaceholder: "បញ្ចូលឈ្មោះពេញ",
-          jobPlaceholder: "បញ្ចូលមុខរបរ",
-          provincePlaceholder: "បញ្ចូលខេត្ត",
-          districtPlaceholder: "បញ្ចូលស្រុក/ខណ្ឌ",
-          communePlaceholder: "បញ្ចូលឃុំ/សង្កាត់",
-          villagePlaceholder: "បញ្ចូលភូមិ",
-          emailPlaceholder: "បញ្ចូលអាសយដ្ឋានអ៊ីមែល",
-          // Validation Messages
-          kNameInvalid: "ត្រូវតែជាអក្សរខ្មែរ ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
-          eNameInvalid: "ត្រូវតែជាអក្សរអង់គ្លេស ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
-          requiredField: "សូមបំពេញប្រអប់នេះ។",
-          parentInfoMissing: "សូមផ្ដល់ព័ត៌មានពេញលេញ (ឈ្មោះ និងទូរស័ព្ទ) សម្រាប់ឪពុក ឬម្តាយយ៉ាងតិចម្នាក់។",
-          addressInfoMissing: "សូមបញ្ចូល ខេត្ត/ក្រុង, ស្រុក/ខណ្ឌ, និង ឃុំ/សង្កាត់។",
-          submitSuccess: "✅ បានបញ្ជូនការចុះឈ្មោះដោយជោគជ័យ!",
-      },
-};
+          en: {
+              // Titles and Headers
+              regFormTitle: "QUICK REGISTRATION",
+              headerSubtitle: "Please enter student and parent details.",
+          // Controls and Prompts
+          welcome: "🎓 Welcome to Our School!", // Added this line
+              
+              // Controls and Prompts
+              timeRemaining: "Time Remaining:",
+              alreadyRegistered: "Have you already registered with us before?",
+              yes: "Yes",
+              no: "No",
+    
+              // Section Titles
+              studentInfo: "Student Information",
+              fatherInfo: "Father Information",
+              motherInfo: "Mother Information",
+              addressInfo: "Address Information",
+    
+              // Student Info Labels
+              khmerName: "Khmer Name",
+              englishName: "English Name",
+              gender: "Gender",
+              selectGender: "Select your gender",
+              male: "Male",
+              female: "Female",
+              dob: "Date of Birth",
+              studentPhone: "Student Phone",
+              previousSchool: "Previous School",
+    
+              // Parent Info Labels
+              fatherName: "Father's Name",
+              fatherPhone: "Father's Phone",
+              fatherJob: "Father's Job",
+              motherName: "Mother's Name",
+              motherPhone: "Mother's Phone",
+              motherJob: "Mother's Job",
+    
+              // Address Info Labels
+              province: "Province",
+              district: "District",
+              commune: "Commune",
+              village: "Village",
+              email: "Email",
+    
+              // Agreement and Submission
+              agreeToTerms: 'I agree to the <a href="https://telegra.ph/Policy-07-09-6" target="_blank">School Policy</a> and <a href="https://telegra.ph/Policy-07-09-6" target="_blank">Conditions</a>',
+              submit: "Submit Registration",
+    
+              // Expired Page
+              linkInvalidHeading: "Link Expired",
+              linkInvalidText: "This registration link has already been used or is invalid. Please contact us if you believe this is an error.",
+              
+              // Placeholders
+              kNamePlaceholder: "Enter your Khmer name",
+              eNamePlaceholder: "Enter your English name",
+              phonePlaceholder: "Enter phone number",
+              schoolPlaceholder: "Enter school name",
+              namePlaceholder: "Enter full name",
+              jobPlaceholder: "Enter job title",
+              provincePlaceholder: "Enter province",
+              districtPlaceholder: "Enter district",
+              communePlaceholder: "Enter commune",
+              villagePlaceholder: "Enter village",
+              emailPlaceholder: "Enter email address",
+              
+              // Validation Messages
+              kNameInvalid: "Must be Khmer letters with at least one space.",
+              eNameInvalid: "Must be English letters with at least one space.",
+              requiredField: "This field is required.",
+              parentInfoMissing: "Please provide complete info (Name and Phone) for at least one parent.",
+              addressInfoMissing: "Please enter Province, District, and Commune.",
+              submitSuccess: "Registration submitted successfully!",
+          },
+          km: {
+              // Titles and Headers
+              regFormTitle: "សំណុំបែបបទចុះឈ្មោះរហ័ស",
+              headerSubtitle: "សូមបញ្ចូលព័ត៌មានសិស្ស និងប៉ាម៉ាក់/អាពាព្យាបាល។",
+          // Controls and Prompts
+          welcome: "🎓 សូមស្វាគមន៍មកកាន់សាលារបស់យើង!", // Added this line
+              // Controls and Prompts
+              timeRemaining: "រយៈពេលនៅសល់៖",
+              alreadyRegistered: "តើអ្នកធ្លាប់បានចុះឈ្មោះជាមួយយើងពីមុនទេ?",
+              yes: "បាទ/ចាស",
+              no: "ទេ",
+    
+              // Section Titles
+              studentInfo: "ព័ត៌មានសិស្ស",
+              fatherInfo: "ព័ត៌មានឪពុក",
+              motherInfo: "ព័ត៌មានម្ដាយ",
+              addressInfo: "ព័ត៌មានអាសយដ្ឋាន",
+    
+              // Student Info Labels
+              khmerName: "ឈ្មោះភាសាខ្មែរ",
+              englishName: "ឈ្មោះ​ភាសាអង់គ្លេស",
+              gender: "ភេទ",
+              selectGender: "ជ្រើសរើសភេទ",
+              male: "ប្រុស",
+              female: "ស្រី",
+              dob: "ថ្ងៃ​ខែ​ឆ្នាំ​កំណើត",
+              studentPhone: "លេខទូរស័ព្ទសិស្ស",
+              previousSchool: "សាលាចាស់",
+    
+              // Parent Info Labels
+              fatherName: "ឈ្មោះឪពុក",
+              fatherPhone: "លេខទូរស័ព្ទឪពុក",
+              fatherJob: "មុខរបរឪពុក",
+              motherName: "ឈ្មោះម្ដាយ",
+              motherPhone: "លេខទូរស័ព្ទម្ដាយ",
+              motherJob: "មុខរបរម្ដាយ",
+    
+              // Address Info Labels
+              province: "ខេត្ត",
+              district: "ស្រុក/ខណ្ឌ",
+              commune: "ឃុំ/សង្កាត់",
+              village: "ភូមិ",
+              email: "អ៊ីមែល",
+    
+              // Agreement and Submission
+              agreeToTerms: 'ខ្ញុំយល់ព្រមតាម <a href="https://telegra.ph/Policy-07-09-6" target="_blank">គោលការណ៍របស់សាលា</a> និង <a href="https://telegra.ph/Policy-07-09-6" target="_blank">លក្ខខណ្ឌដែលបានចែង</a>',
+              submit: "បញ្ជូនការចុះឈ្មោះ",
+    
+              // Expired Page
+              linkInvalidHeading: "តំណភ្ជាប់បានផុតកំណត់",
+              linkInvalidText: "តំណភ្ជាប់ចុះឈ្មោះនេះត្រូវបានប្រើប្រាស់រួចហើយ ឬមិនត្រឹមត្រូវ។ សូមទាក់ទងមកយើងខ្ញុំ ប្រសិនបើលោកអ្នកជឿថានេះជាកំហុស។",
+              
+              // Placeholders
+              kNamePlaceholder: "បញ្ចូលឈ្មោះភាសាខ្មែររបស់អ្នក។",
+              eNamePlaceholder: "បញ្ចូលឈ្មោះភាសាអង់គ្លេសរបស់អ្នក។",
+              phonePlaceholder: "បញ្ចូលលេខទូរស័ព្ទ",
+              schoolPlaceholder: "បញ្ចូលឈ្មោះសាលា",
+              namePlaceholder: "បញ្ចូលឈ្មោះពេញ",
+              jobPlaceholder: "បញ្ចូលមុខរបរ",
+              provincePlaceholder: "បញ្ចូលខេត្ត",
+              districtPlaceholder: "បញ្ចូលស្រុក/ខណ្ឌ",
+              communePlaceholder: "បញ្ចូលឃុំ/សង្កាត់",
+              villagePlaceholder: "បញ្ចូលភូមិ",
+              emailPlaceholder: "បញ្ចូលអាសយដ្ឋានអ៊ីមែល",
+              
+              // Validation Messages
+              kNameInvalid: "ត្រូវតែជាអក្សរខ្មែរ ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
+              eNameInvalid: "ត្រូវតែជាអក្សរអង់គ្លេស ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
+              requiredField: "សូមបំពេញប្រអប់នេះ។",
+              parentInfoMissing: "សូមផ្ដល់ព័ត៌មានពេញលេញ (ឈ្មោះ និងទូរស័ព្ទ) សម្រាប់ឪពុក ឬម្តាយយ៉ាងតិចម្នាក់។",
+              addressInfoMissing: "សូមបញ្ចូល ខេត្ត/ក្រុង, ស្រុក/ខណ្ឌ, និង ឃុំ/សង្កាត់។",
+              submitSuccess: "✅ បានបញ្ជូនការចុះឈ្មោះដោយជោគជ័យ!",
+          },
+    };
 
 // --- Helper Functions ---
 const setLanguage = (lang) => {
@@ -93,6 +186,7 @@ const clearError = (input) => {
     errorDisplay.classList.remove("visible");
     input.classList.remove("input-error");
 };
+
 
 // --- Main Logic ---
 document.addEventListener("DOMContentLoaded", async () => {

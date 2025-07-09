@@ -1,3 +1,6 @@
+/* Import Roboto & Hanuman fonts */
+@import url('https://fonts.googleapis.com/css2?family=Hanuman&family=Roboto&display=swap');
+
 * {
           margin: 0;
           padding: 0;
@@ -5,7 +8,7 @@
       }
       
       body {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Hanuman', Hanuman;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           min-height: 100vh;
           padding: 10px;
@@ -221,7 +224,7 @@
       }
       
       .btn {
-          font-family: 'Inter', sans-serif;
+          font-family: 'Inter', Hanuman;
           font-size: 0.95rem;
           font-weight: 600;
           border-radius: 6px; /* Rounded */
@@ -367,7 +370,7 @@
       /* MODIFIED: Made inputs smaller and border thinner */
       .form-control input,
       .form-control select {
-          font-family: 'Inter', sans-serif;
+          font-family: 'Inter', Hanuman;
           width: 100%;
           padding: 8px 14px; /* Reduced top/bottom padding */
           border: 1px solid #e5e7eb;
