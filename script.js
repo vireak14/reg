@@ -61,301 +61,283 @@ const translations = {
 
 // --- Helper Functions ---
 const setLanguage = (lang) => {
-    currentLang = lang;
-    document.querySelectorAll("[data-lang-key]").forEach(elem => {
-        const key = elem.getAttribute("data-lang-key");
-        const type = elem.getAttribute("data-type");
-        if (translations[lang]?.[key]) {
-            if (type === 'html') {
-                elem.innerHTML = translations[lang][key];
-            } else if (elem.tagName === 'BUTTON' && elem.querySelector('i')) {
-                elem.innerHTML = `${elem.querySelector('i').outerHTML} ${translations[lang][key]}`;
-            } else {
-                elem.textContent = translations[lang][key];
-            }
-        }
-    });
-    document.querySelectorAll("[data-placeholder]").forEach(elem => {
-        const key = elem.getAttribute("data-placeholder");
-        if (translations[lang]?.[key]) {
-            elem.placeholder = translations[lang][key];
-        }
-    });
-    document.documentElement.lang = lang;
-    document.getElementById("lang-en").classList.toggle("active", lang === "en");
-    document.getElementById("lang-km").classList.toggle("active", lang === "km");
-};
-
-const showError = (input, messageKey) => {
-    const formControl = input.parentElement;
-    const errorDisplay = formControl.querySelector(".error-message");
-    errorDisplay.textContent = translations[currentLang][messageKey] || messageKey;
-    errorDisplay.classList.add("visible");
-    input.classList.add("input-error");
-};
-
-const clearError = (input) => {
-    const formControl = input.parentElement;
-    const errorDisplay = formControl.querySelector(".error-message");
-    errorDisplay.classList.remove("visible");
-    input.classList.remove("input-error");
-};
-
-
-// --- Main Logic ---
-document.addEventListener("DOMContentLoaded", async () => {
-    
-    // --- Get all DOM elements first ---
-    const regForm = document.getElementById("regForm");
-    const kNameInput = document.getElementById("txt_kName");
-    const eNameInput = document.getElementById("txt_eName");
-    const genderSelect = document.getElementById("sfComboBox_gender");
-    const dobInput = document.getElementById("sfDateValue_dob");
-    const fatherNameInput = document.getElementById("txt_father_name");
-    const fatherPhoneInput = document.getElementById("txt_father_phone");
-    const motherNameInput = document.getElementById("txt_mother_name");
-    const motherPhoneInput = document.getElementById("txt_mother_phone");
-    const provinceInput = document.getElementById("sfComboBox_parent_province");
-    const districtInput = document.getElementById("sfComboBox_parent_district");
-    const communeInput = document.getElementById("sfComboBox_parent_commune");
-    const parentErrorDiv = document.getElementById("parent-error-message");
-    const termsCheckbox = document.getElementById("terms-agree");
-    const submitBtn = document.getElementById("submit-btn");
-    const mainContainer = document.querySelector(".container");
-    const expiredOverlay = document.getElementById("expired-link-overlay");
-
-    const showExpiredPage = () => {
-        mainContainer.style.display = 'none';
-        expiredOverlay.style.display = 'flex';
-        setLanguage(currentLang); // Ensure expired message is translated
-    };
-
-    // --- Page Load Validation (This runs first) ---
-    const key = new URLSearchParams(window.location.search).get("key");
-    const expiry = parseInt(new URLSearchParams(window.location.search).get("expiry"));
-    const firebaseBaseUrl = "https://pamais-server-default-rtdb.asia-southeast1.firebasedatabase.app/";
-
-    // 1. Check if key or expiry are missing from URL
-    if (!key || !expiry) {
-        showExpiredPage();
-        return;
-    }
-    // 2. Check if the link has expired by time
-    if (Date.now() > expiry) {
-        showExpiredPage();
-        return;
-    }
-    // 3. Check if the link has already been used by fetching data
-    try {
-        const response = await fetch(`${firebaseBaseUrl}${key}.json`);
-        const data = await response.json();
-        if (data) {
-            showExpiredPage();
-            return;
-        }
-    } catch (error) {
-        console.error("Error checking link validity:", error);
-        showExpiredPage();
-        return;
-    }
-
-    // --- Setup Page if Link is Valid ---
-    const countdownElement = document.getElementById("countdown");
-    const registrationPrompt = document.querySelector(".registration-prompt");
-    const fatherInfoSection = document.getElementById("fatherInfo");
-    const motherInfoSection = document.getElementById("motherInfo");
-    const addressInfoSection = document.getElementById("addressInfo");
-
-    const timerInterval = setInterval(() => {
-        const distance = expiry - Date.now();
-        if (distance <= 0) {
-            clearInterval(timerInterval);
-            showExpiredPage();
-            return;
-        }
-        const hours = Math.floor(distance / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        countdownElement.textContent = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    }, 1000);
-
-    // --- Validation Logic ---
-    const khmerRegex = /^(?=.* )[\u1780-\u17FF\s]+$/;
-    const englishRegex = /^(?=.* )[a-zA-Z\s]+$/;
-    const validateKName = () => khmerRegex.test(kNameInput.value);
-    const validateEName = () => englishRegex.test(eNameInput.value);
-    const validateRequired = (input) => input.value.trim() !== '';
-
-    const validateParentFields = () => {
-        if (!isNewStudent) return;
-        const fatherName = fatherNameInput.value.trim();
-        const fatherPhone = fatherPhoneInput.value.trim();
-        const motherName = motherNameInput.value.trim();
-        const motherPhone = motherPhoneInput.value.trim();
-        if (fatherName || fatherPhone) {
-            validateRequired(fatherNameInput) ? clearError(fatherNameInput) : showError(fatherNameInput, "requiredField");
-            validateRequired(fatherPhoneInput) ? clearError(fatherPhoneInput) : showError(fatherPhoneInput, "requiredField");
-        } else {
-            clearError(fatherNameInput);
-            clearError(fatherPhoneInput);
-        }
-        if (motherName || motherPhone) {
-            validateRequired(motherNameInput) ? clearError(motherNameInput) : showError(motherNameInput, "requiredField");
-            validateRequired(motherPhoneInput) ? clearError(motherPhoneInput) : showError(motherPhoneInput, "requiredField");
-        } else {
-            clearError(motherNameInput);
-            clearError(motherPhoneInput);
-        }
-        if ((fatherName && fatherPhone) || (motherName && motherPhone)) {
-            parentErrorDiv.classList.remove("visible");
-        }
-    };
-
-    const updateProgress = () => {
-        const progressFill = document.getElementById("progressFill");
-        const progressText = document.getElementById("progressText");
-        const baseRequiredFields = [kNameInput, eNameInput, genderSelect, dobInput];
-        let totalRequiredCount = baseRequiredFields.length;
-        let filledCount = baseRequiredFields.filter(input => input.value.trim() !== '').length;
-        if (isNewStudent) {
-            const addressRequiredFields = [provinceInput, districtInput, communeInput];
-            totalRequiredCount += addressRequiredFields.length;
-            filledCount += addressRequiredFields.filter(input => input.value.trim() !== '').length;
-            totalRequiredCount += 1;
-            const isFatherInfoProvided = fatherNameInput.value.trim() !== '' && fatherPhoneInput.value.trim() !== '';
-            const isMotherInfoProvided = motherNameInput.value.trim() !== '' && motherPhoneInput.value.trim() !== '';
-            if (isFatherInfoProvided || isMotherInfoProvided) {
-                filledCount++;
-            }
-        }
-        const progress = totalRequiredCount > 0 ? (filledCount / totalRequiredCount) * 100 : 0;
-        progressFill.style.width = `${progress}%`;
-        progressText.textContent = `${Math.round(progress)}% Complete`;
-    };
-
-    function runFinalValidation() {
-        let isValid = true;
-        let firstErrorElement = null;
-        const validationChecks = [
-            { input: kNameInput, validator: validateKName, msg: "kNameInvalid" },
-            { input: eNameInput, validator: validateEName, msg: "eNameInvalid" },
-            { input: genderSelect, validator: validateRequired, msg: "requiredField" },
-            { input: dobInput, validator: validateRequired, msg: "requiredField" },
-        ];
-        if (isNewStudent) {
-            validationChecks.push(
-                { input: provinceInput, validator: validateRequired, msg: "requiredField" },
-                { input: districtInput, validator: validateRequired, msg: "requiredField" },
-                { input: communeInput, validator: validateRequired, msg: "requiredField" }
-            );
-        }
-        [...validationChecks.map(c => c.input), fatherNameInput, motherNameInput, fatherPhoneInput, motherPhoneInput].forEach(clearError);
-        parentErrorDiv.classList.remove("visible");
-        for (const check of validationChecks) {
-            if (!check.validator(check.input)) {
-                isValid = false;
-                showError(check.input, check.msg);
-                if (!firstErrorElement) firstErrorElement = check.input;
-            } else {
-                clearError(check.input);
-            }
-        }
-        if (isNewStudent) {
-            const isFatherInfoProvided = fatherNameInput.value.trim() !== '' && fatherPhoneInput.value.trim() !== '';
-            const isMotherInfoProvided = motherNameInput.value.trim() !== '' && motherPhoneInput.value.trim() !== '';
-            if (!isFatherInfoProvided && !isMotherInfoProvided) {
-                isValid = false;
-                parentErrorDiv.textContent = translations[currentLang].parentInfoMissing;
-                parentErrorDiv.classList.add("visible");
-                if (!firstErrorElement) firstErrorElement = fatherNameInput;
-            }
-        }
-        if (!isValid && firstErrorElement) {
-            firstErrorElement.focus();
-        }
-        return isValid;
-    }
-
-    // --- Set up event listeners ---
-    setLanguage("en");
-    document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
-    document.getElementById("lang-km").addEventListener("click", () => setLanguage("km"));
-    document.getElementById("btnYes").addEventListener("click", () => {
-        isNewStudent = false; 
-        registrationPrompt.style.display = "none";
-        regForm.style.display = "block";
-        fatherInfoSection.style.display = "none";
-        motherInfoSection.style.display = "none";
-        addressInfoSection.style.display = "none";
-        updateProgress();
-    });
-    document.getElementById("btnNo").addEventListener("click", () => {
-        isNewStudent = true; 
-        registrationPrompt.style.display = "none";
-        regForm.style.display = "block";
-        fatherInfoSection.style.display = "block";
-        motherInfoSection.style.display = "block";
-        addressInfoSection.style.display = "block";
-        updateProgress();
-    });
-    kNameInput.addEventListener('input', () => validateKName() ? clearError(kNameInput) : showError(kNameInput, "kNameInvalid"));
-    eNameInput.addEventListener('input', () => validateEName() ? clearError(eNameInput) : showError(eNameInput, "eNameInvalid"));
-    [genderSelect, dobInput].forEach(input => {
-        input.addEventListener('input', () => validateRequired(input) ? clearError(input) : showError(input, "requiredField"));
-    });
-    [provinceInput, districtInput, communeInput].forEach(input => {
-        input.addEventListener('input', () => {
-            if (isNewStudent) {
-                validateRequired(input) ? clearError(input) : showError(input, "requiredField");
-            }
-        });
-    });
-    [fatherNameInput, fatherPhoneInput, motherNameInput, motherPhoneInput].forEach(input => {
-        input.addEventListener('input', validateParentFields);
-    });
-    regForm.addEventListener('input', updateProgress);
-    termsCheckbox.addEventListener('change', () => {
-        submitBtn.disabled = !termsCheckbox.checked;
-    });
-    regForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        if (!runFinalValidation()) return;
-        
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
-        submitBtn.disabled = true;
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        data.timestamp = new Date().toISOString();
-        delete data['terms-agree'];
-        
-        try {
-            const response = await fetch(`${firebaseBaseUrl}${key}.json`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
-            if (response.ok) {
-                const successDiv = document.createElement('div');
-                successDiv.innerHTML = `
-                    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 6px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; z-index: 1000; max-width: 400px; width: 90%;">
-                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #059669 0%, #047857 100%); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">✓</div>
-                        <h3 style="color: #059669; margin-bottom: 16px; font-size: 1.5rem;">Success!</h3>
-                        <p style="color: #64748b; margin-bottom: 24px;">${translations[currentLang].submitSuccess}</p>
-                        <p style="color: #94a3b8; font-size: 0.9rem;">Redirecting to our Facebook page...</p>
-                    </div>
-                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
-                `;
-                document.body.appendChild(successDiv);
-                setTimeout(() => {
-                    window.location.href = "https://facebook.com/pamainternationalschool";
-                }, 2000);
-            } else {
-                throw new Error('Submission failed');
-            }
-        } catch (err) {
-            alert(translations[currentLang].submitError + err.message);
-            submitBtn.innerHTML = translations[currentLang].submit;
-            submitBtn.disabled = false;
-        }
-    });
-});
+          currentLang = lang;
+          document.querySelectorAll("[data-lang-key]").forEach(elem => {
+              const key = elem.getAttribute("data-lang-key");
+              const type = elem.getAttribute("data-type");
+              if (translations[lang]?.[key]) {
+                  if (type === 'html') {
+                      elem.innerHTML = translations[lang][key];
+                  } else if (elem.tagName === 'BUTTON' && elem.querySelector('i')) {
+                      elem.innerHTML = `${elem.querySelector('i').outerHTML} ${translations[lang][key]}`;
+                  } else {
+                      elem.textContent = translations[lang][key];
+                  }
+              }
+          });
+          document.querySelectorAll("[data-placeholder]").forEach(elem => {
+              const key = elem.getAttribute("data-placeholder");
+              if (translations[lang]?.[key]) {
+                  elem.placeholder = translations[lang][key];
+              }
+          });
+          document.documentElement.lang = lang;
+          document.getElementById("lang-en").classList.toggle("active", lang === "en");
+          document.getElementById("lang-km").classList.toggle("active", lang === "km");
+      };
+      
+      const showError = (input, messageKey) => {
+          const formControl = input.parentElement;
+          const errorDisplay = formControl.querySelector(".error-message");
+          errorDisplay.textContent = translations[currentLang][messageKey] || messageKey;
+          errorDisplay.classList.add("visible");
+          input.classList.add("input-error");
+      };
+      
+      const clearError = (input) => {
+          const formControl = input.parentElement;
+          const errorDisplay = formControl.querySelector(".error-message");
+          errorDisplay.classList.remove("visible");
+          input.classList.remove("input-error");
+      };
+      
+      
+      // --- Main Logic ---
+      document.addEventListener("DOMContentLoaded", async () => {
+          
+          // --- Get all DOM elements first ---
+          const regForm = document.getElementById("regForm");
+          const kNameInput = document.getElementById("txt_kName");
+          const eNameInput = document.getElementById("txt_eName");
+          const genderSelect = document.getElementById("sfComboBox_gender");
+          const dobInput = document.getElementById("sfDateValue_dob");
+          const fatherNameInput = document.getElementById("txt_father_name");
+          const fatherPhoneInput = document.getElementById("txt_father_phone");
+          const motherNameInput = document.getElementById("txt_mother_name");
+          const motherPhoneInput = document.getElementById("txt_mother_phone");
+          const provinceInput = document.getElementById("sfComboBox_parent_province");
+          const districtInput = document.getElementById("sfComboBox_parent_district");
+          const communeInput = document.getElementById("sfComboBox_parent_commune");
+          const parentErrorDiv = document.getElementById("parent-error-message");
+          const termsCheckbox = document.getElementById("terms-agree");
+          const submitBtn = document.getElementById("submit-btn");
+          const mainContainer = document.querySelector(".container");
+          const expiredOverlay = document.getElementById("expired-link-overlay");
+      
+          const showExpiredPage = () => {
+              mainContainer.style.display = 'none';
+              expiredOverlay.style.display = 'flex';
+              setLanguage(currentLang);
+          };
+      
+          // --- Page Load Validation (This runs first) ---
+          const key = new URLSearchParams(window.location.search).get("key");
+          const expiry = parseInt(new URLSearchParams(window.location.search).get("expiry"));
+          const firebaseBaseUrl = "https://pamais-server-default-rtdb.asia-southeast1.firebasedatabase.app/";
+      
+          // Check if key or expiry are missing from URL, or if time has expired
+          if (!key || !expiry || Date.now() > expiry) {
+              showExpiredPage();
+              return; // Stop loading the page
+          }
+      
+          // --- Setup Page if Link is Valid ---
+          const countdownElement = document.getElementById("countdown");
+          const registrationPrompt = document.querySelector(".registration-prompt");
+          const fatherInfoSection = document.getElementById("fatherInfo");
+          const motherInfoSection = document.getElementById("motherInfo");
+          const addressInfoSection = document.getElementById("addressInfo");
+      
+          const timerInterval = setInterval(() => {
+              const distance = expiry - Date.now();
+              if (distance <= 0) {
+                  clearInterval(timerInterval);
+                  showExpiredPage();
+                  return;
+              }
+              const hours = Math.floor(distance / (1000 * 60 * 60));
+              const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+              countdownElement.textContent = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+          }, 1000);
+      
+          // --- Validation Logic ---
+          const khmerRegex = /^(?=.* )[\u1780-\u17FF\s]+$/;
+          const englishRegex = /^(?=.* )[a-zA-Z\s]+$/;
+          const validateKName = () => khmerRegex.test(kNameInput.value);
+          const validateEName = () => englishRegex.test(eNameInput.value);
+          const validateRequired = (input) => input.value.trim() !== '';
+      
+          const validateParentFields = () => {
+              if (!isNewStudent) return;
+              const fatherName = fatherNameInput.value.trim();
+              const fatherPhone = fatherPhoneInput.value.trim();
+              const motherName = motherNameInput.value.trim();
+              const motherPhone = motherPhoneInput.value.trim();
+              if (fatherName || fatherPhone) {
+                  validateRequired(fatherNameInput) ? clearError(fatherNameInput) : showError(fatherNameInput, "requiredField");
+                  validateRequired(fatherPhoneInput) ? clearError(fatherPhoneInput) : showError(fatherPhoneInput, "requiredField");
+              } else {
+                  clearError(fatherNameInput);
+                  clearError(fatherPhoneInput);
+              }
+              if (motherName || motherPhone) {
+                  validateRequired(motherNameInput) ? clearError(motherNameInput) : showError(motherNameInput, "requiredField");
+                  validateRequired(motherPhoneInput) ? clearError(motherPhoneInput) : showError(motherPhoneInput, "requiredField");
+              } else {
+                  clearError(motherNameInput);
+                  clearError(motherPhoneInput);
+              }
+              if ((fatherName && fatherPhone) || (motherName && motherPhone)) {
+                  parentErrorDiv.classList.remove("visible");
+              }
+          };
+      
+          const updateProgress = () => {
+              const progressFill = document.getElementById("progressFill");
+              const progressText = document.getElementById("progressText");
+              const baseRequiredFields = [kNameInput, eNameInput, genderSelect, dobInput];
+              let totalRequiredCount = baseRequiredFields.length;
+              let filledCount = baseRequiredFields.filter(input => input.value.trim() !== '').length;
+              if (isNewStudent) {
+                  const addressRequiredFields = [provinceInput, districtInput, communeInput];
+                  totalRequiredCount += addressRequiredFields.length;
+                  filledCount += addressRequiredFields.filter(input => input.value.trim() !== '').length;
+                  totalRequiredCount += 1;
+                  const isFatherInfoProvided = fatherNameInput.value.trim() !== '' && fatherPhoneInput.value.trim() !== '';
+                  const isMotherInfoProvided = motherNameInput.value.trim() !== '' && motherPhoneInput.value.trim() !== '';
+                  if (isFatherInfoProvided || isMotherInfoProvided) {
+                      filledCount++;
+                  }
+              }
+              const progress = totalRequiredCount > 0 ? (filledCount / totalRequiredCount) * 100 : 0;
+              progressFill.style.width = `${progress}%`;
+              progressText.textContent = `${Math.round(progress)}% Complete`;
+          };
+      
+          function runFinalValidation() {
+              let isValid = true;
+              let firstErrorElement = null;
+              const validationChecks = [
+                  { input: kNameInput, validator: validateKName, msg: "kNameInvalid" },
+                  { input: eNameInput, validator: validateEName, msg: "eNameInvalid" },
+                  { input: genderSelect, validator: validateRequired, msg: "requiredField" },
+                  { input: dobInput, validator: validateRequired, msg: "requiredField" },
+              ];
+              if (isNewStudent) {
+                  validationChecks.push(
+                      { input: provinceInput, validator: validateRequired, msg: "requiredField" },
+                      { input: districtInput, validator: validateRequired, msg: "requiredField" },
+                      { input: communeInput, validator: validateRequired, msg: "requiredField" }
+                  );
+              }
+              [...validationChecks.map(c => c.input), fatherNameInput, motherNameInput, fatherPhoneInput, motherPhoneInput].forEach(clearError);
+              parentErrorDiv.classList.remove("visible");
+              for (const check of validationChecks) {
+                  if (!check.validator(check.input)) {
+                      isValid = false;
+                      showError(check.input, check.msg);
+                      if (!firstErrorElement) firstErrorElement = check.input;
+                  } else {
+                      clearError(check.input);
+                  }
+              }
+              if (isNewStudent) {
+                  const isFatherInfoProvided = fatherNameInput.value.trim() !== '' && fatherPhoneInput.value.trim() !== '';
+                  const isMotherInfoProvided = motherNameInput.value.trim() !== '' && motherPhoneInput.value.trim() !== '';
+                  if (!isFatherInfoProvided && !isMotherInfoProvided) {
+                      isValid = false;
+                      parentErrorDiv.textContent = translations[currentLang].parentInfoMissing;
+                      parentErrorDiv.classList.add("visible");
+                      if (!firstErrorElement) firstErrorElement = fatherNameInput;
+                  }
+              }
+              if (!isValid && firstErrorElement) {
+                  firstErrorElement.focus();
+              }
+              return isValid;
+          }
+      
+          // --- Set up event listeners ---
+          setLanguage("en");
+          document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
+          document.getElementById("lang-km").addEventListener("click", () => setLanguage("km"));
+          document.getElementById("btnYes").addEventListener("click", () => {
+              isNewStudent = false; 
+              registrationPrompt.style.display = "none";
+              regForm.style.display = "block";
+              fatherInfoSection.style.display = "none";
+              motherInfoSection.style.display = "none";
+              addressInfoSection.style.display = "none";
+              updateProgress();
+          });
+          document.getElementById("btnNo").addEventListener("click", () => {
+              isNewStudent = true; 
+              registrationPrompt.style.display = "none";
+              regForm.style.display = "block";
+              fatherInfoSection.style.display = "block";
+              motherInfoSection.style.display = "block";
+              addressInfoSection.style.display = "block";
+              updateProgress();
+          });
+          kNameInput.addEventListener('input', () => validateKName() ? clearError(kNameInput) : showError(kNameInput, "kNameInvalid"));
+          eNameInput.addEventListener('input', () => validateEName() ? clearError(eNameInput) : showError(eNameInput, "eNameInvalid"));
+          [genderSelect, dobInput].forEach(input => {
+              input.addEventListener('input', () => validateRequired(input) ? clearError(input) : showError(input, "requiredField"));
+          });
+          [provinceInput, districtInput, communeInput].forEach(input => {
+              input.addEventListener('input', () => {
+                  if (isNewStudent) {
+                      validateRequired(input) ? clearError(input) : showError(input, "requiredField");
+                  }
+              });
+          });
+          [fatherNameInput, fatherPhoneInput, motherNameInput, motherPhoneInput].forEach(input => {
+              input.addEventListener('input', validateParentFields);
+          });
+          regForm.addEventListener('input', updateProgress);
+          termsCheckbox.addEventListener('change', () => {
+              submitBtn.disabled = !termsCheckbox.checked;
+          });
+          regForm.addEventListener("submit", async function (e) {
+              e.preventDefault();
+              if (!runFinalValidation()) return;
+              
+              submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+              submitBtn.disabled = true;
+              const formData = new FormData(e.target);
+              const data = Object.fromEntries(formData.entries());
+              data.timestamp = new Date().toISOString();
+              delete data['terms-agree'];
+              
+              try {
+                  const response = await fetch(`${firebaseBaseUrl}${key}.json`, {
+                      method: "PUT",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(data),
+                  });
+                  if (response.ok) {
+                      const successDiv = document.createElement('div');
+                      successDiv.innerHTML = `
+                          <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 6px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; z-index: 1000; max-width: 400px; width: 90%;">
+                              <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #059669 0%, #047857 100%); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">✓</div>
+                              <h3 style="color: #059669; margin-bottom: 16px; font-size: 1.5rem;">Success!</h3>
+                              <p style="color: #64748b; margin-bottom: 24px;">${translations[currentLang].submitSuccess}</p>
+                              <p style="color: #94a3b8; font-size: 0.9rem;">Redirecting to our Facebook page...</p>
+                          </div>
+                          <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+                      `;
+                      document.body.appendChild(successDiv);
+                      setTimeout(() => {
+                          window.location.href = "https://facebook.com/pamainternationalschool";
+                      }, 2000);
+                  } else {
+                      throw new Error('Submission failed');
+                  }
+              } catch (err) {
+                  alert(translations[currentLang].submitError + err.message);
+                  submitBtn.innerHTML = translations[currentLang].submit;
+                  submitBtn.disabled = false;
+              }
+          });
+      });
