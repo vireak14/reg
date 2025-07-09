@@ -364,19 +364,27 @@
           transition: color 0.2s ease;
       }
       
+      /* MODIFIED: Made inputs smaller and border thinner */
       .form-control input,
       .form-control select {
           font-family: 'Inter', sans-serif;
           width: 100%;
-          padding: 12px 16px;
-          border: 2px solid #e5e7eb;
-          border-radius: 6px; /* Rounded */
+          padding: 10px 14px; /* Reduced padding */
+          border: 1px solid #e5e7eb; /* Thinner border */
+          border-radius: 6px;
           font-size: 0.95rem;
           background: white;
           transition: all 0.3s ease;
           box-sizing: border-box;
           position: relative;
       }
+      
+      /* ADDED: Style for the red border on error */
+      .form-control input.input-error,
+      .form-control select.input-error {
+          border-color: #dc2626 !important;
+      }
+      
       
       .form-control input::placeholder {
           color: #9ca3af;
@@ -394,6 +402,19 @@
       .form-control input:focus + label,
       .form-control select:focus + label {
           color: #4f46e5;
+      }
+      
+      /* ADDED: Styles for the error message text */
+      .error-message {
+          color: #dc2626;
+          font-size: 0.8rem;
+          margin-top: 4px;
+          min-height: 1.2em; /* Prevents layout shift when message appears */
+          display: none; /* Hidden by default */
+      }
+      
+      .error-message.visible {
+          display: block; /* Shown when there's an error */
       }
       
       .submit-btn {

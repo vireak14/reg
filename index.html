@@ -57,7 +57,6 @@
                 </div>
 
                 <div class="form-sections-wrapper">
-
                     <div class="section">
                         <div class="section-content">
                             <h2 data-lang-key="studentInfo">
@@ -67,10 +66,12 @@
                                 <div class="form-control">
                                     <label for="txt_kName" data-lang-key="khmerName">Khmer Name</label>
                                     <input type="text" id="txt_kName" name="txt_kName" placeholder="Enter your Khmer name" required />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_eName" data-lang-key="englishName">English Name</label>
                                     <input type="text" id="txt_eName" name="txt_eName" placeholder="Enter your English name" required />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="sfComboBox_gender" data-lang-key="gender">Gender</label>
@@ -79,10 +80,12 @@
                                         <option value="ប្រុស" data-lang-key="male">Male</option>
                                         <option value="ស្រី" data-lang-key="female">Female</option>
                                     </select>
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="sfDateValue_dob" data-lang-key="dob">Date of Birth</label>
                                     <input type="date" id="sfDateValue_dob" name="sfDateValue_dob" required />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_student_phone" data-lang-key="studentPhone">Student Phone</label>
@@ -97,7 +100,7 @@
                     </div>
 
                     <div id="fatherInfo" class="section">
-                         <div class="section-content">
+                        <div class="section-content">
                             <h2 data-lang-key="fatherInfo">
                                 <i class="fas fa-user-tie"></i>Father Information
                             </h2>
@@ -105,10 +108,12 @@
                                 <div class="form-control">
                                     <label for="txt_father_name" data-lang-key="fatherName">Father's Name</label>
                                     <input type="text" id="txt_father_name" name="txt_father_name" placeholder="Enter father's name" />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_father_phone" data-lang-key="fatherPhone">Father's Phone</label>
                                     <input type="tel" id="txt_father_phone" name="txt_father_phone" placeholder="Enter father's phone" />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_father_job" data-lang-key="fatherJob">Father's Job</label>
@@ -119,7 +124,7 @@
                     </div>
 
                     <div id="motherInfo" class="section">
-                         <div class="section-content">
+                        <div class="section-content">
                             <h2 data-lang-key="motherInfo">
                                 <i class="fas fa-female"></i>Mother Information
                             </h2>
@@ -127,10 +132,12 @@
                                 <div class="form-control">
                                     <label for="txt_mother_name" data-lang-key="motherName">Mother's Name</label>
                                     <input type="text" id="txt_mother_name" name="txt_mother_name" placeholder="Enter mother's name" />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_mother_phone" data-lang-key="motherPhone">Mother's Phone</label>
                                     <input type="tel" id="txt_mother_phone" name="txt_mother_phone" placeholder="Enter mother's phone" />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_mother_job" data-lang-key="motherJob">Mother's Job</label>
@@ -141,7 +148,7 @@
                     </div>
 
                     <div id="addressInfo" class="section">
-                         <div class="section-content">
+                        <div class="section-content">
                             <h2 data-lang-key="addressInfo">
                                 <i class="fas fa-map-marker-alt"></i>Address Information
                             </h2>
@@ -149,14 +156,17 @@
                                 <div class="form-control">
                                     <label for="sfComboBox_parent_province" data-lang-key="province">Province</label>
                                     <input type="text" id="sfComboBox_parent_province" name="sfComboBox_parent_province" placeholder="Enter province" />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="sfComboBox_parent_district" data-lang-key="district">District</label>
                                     <input type="text" id="sfComboBox_parent_district" name="sfComboBox_parent_district" placeholder="Enter district" />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="sfComboBox_parent_commune" data-lang-key="commune">Commune</label>
                                     <input type="text" id="sfComboBox_parent_commune" name="sfComboBox_parent_commune" placeholder="Enter commune" />
+                                    <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="sfComboBox_parent_village" data-lang-key="village">Village</label>
@@ -170,29 +180,13 @@
                         </div>
                     </div>
                 </div>
-
+                <div id="parent-error-message" class="error-message" style="text-align: center; margin-top: 10px;"></div>
                 <button type="submit" class="btn btn-contained submit-btn" data-lang-key="submit">
                     <i class="fas fa-paper-plane"></i> Submit Registration
                 </button>
             </form>
         </div>
     </div>
-
-    <div id="messageBox" class="message-box">
-        <div class="message-content">
-            <div class="message-icon">
-                <i class="fas fa-check"></i>
-            </div>
-            <div class="message-text">
-                <h3 class="message-title">Success!</h3>
-                <p class="message-description">Your registration has been submitted successfully.</p>
-            </div>
-            <button class="message-close" onclick="closeMessageBox()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>
