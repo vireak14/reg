@@ -5,6 +5,10 @@ const translations = {
           regFormTitle: "📝 Registration Form",
           headerSubtitle: "Please fill in your information accurately",
           agreeToTerms: 'I agree to the <a href="https://telegra.ph/Policy-07-09-6" target="_blank">School Policy</a> and <a href="https://telegra.ph/Policy-07-09-6" target="_blank">Conditions</a>',
+          timeRemaining: "Time Remaining:",
+          linkInvalidHeading: "Link Expired",
+          linkInvalidText: "This registration link has already been used or is invalid. Please contact us if you believe this is an error.",
+          // Placeholders
           kNamePlaceholder: "Enter your Khmer name",
           eNamePlaceholder: "Enter your English name",
           phonePlaceholder: "Enter phone number",
@@ -16,19 +20,22 @@ const translations = {
           communePlaceholder: "Enter commune",
           villagePlaceholder: "Enter village",
           emailPlaceholder: "Enter email address",
+          // Validation Messages
           kNameInvalid: "Must be Khmer letters with at least one space.",
           eNameInvalid: "Must be English letters with at least one space.",
           requiredField: "This field is required.",
           parentInfoMissing: "Please provide complete info (Name and Phone) for at least one parent.",
           addressInfoMissing: "Please enter Province, District, and Commune.",
-          linkInvalidHeading: "Link Expired",
-          linkInvalidText: "This registration link has already been used or is invalid. Please contact us if you believe this is an error.",
           submitSuccess: "Registration submitted successfully!",
       },
       km: {
           regFormTitle: "📝 ទម្រង់ចុះឈ្មោះ",
           headerSubtitle: "សូមបំពេញព័ត៌មានរបស់អ្នកឱ្យបានត្រឹមត្រូវ",
           agreeToTerms: 'ខ្ញុំយល់ព្រមតាម <a href="https://telegra.ph/Policy-07-09-6" target="_blank">គោលការណ៍របស់សាលា</a> និង <a href="https://telegra.ph/Policy-07-09-6" target="_blank">លក្ខខណ្ឌដែលបានចែង</a>',
+          timeRemaining: "ពេលវេលាដែលនៅសល់៖",
+          linkInvalidHeading: "តំណភ្ជាប់បានផុតកំណត់",
+          linkInvalidText: "តំណភ្ជាប់ចុះឈ្មោះនេះត្រូវបានប្រើប្រាស់រួចហើយ ឬមិនត្រឹមត្រូវ។ សូមទាក់ទងមកយើងខ្ញុំ ប្រសិនបើលោកអ្នកជឿថានេះជាកំហុស។",
+          // Placeholders
           kNamePlaceholder: "បញ្ចូលឈ្មោះភាសាខ្មែររបស់អ្នក។",
           eNamePlaceholder: "បញ្ចូលឈ្មោះភាសាអង់គ្លេសរបស់អ្នក។",
           phonePlaceholder: "បញ្ចូលលេខទូរស័ព្ទ",
@@ -40,13 +47,12 @@ const translations = {
           communePlaceholder: "បញ្ចូលឃុំ/សង្កាត់",
           villagePlaceholder: "បញ្ចូលភូមិ",
           emailPlaceholder: "បញ្ចូលអាសយដ្ឋានអ៊ីមែល",
+          // Validation Messages
           kNameInvalid: "ត្រូវតែជាអក្សរខ្មែរ ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
           eNameInvalid: "ត្រូវតែជាអក្សរអង់គ្លេស ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
           requiredField: "សូមបំពេញប្រអប់នេះ។",
           parentInfoMissing: "សូមផ្ដល់ព័ត៌មានពេញលេញ (ឈ្មោះ និងទូរស័ព្ទ) សម្រាប់ឪពុក ឬម្តាយយ៉ាងតិចម្នាក់។",
           addressInfoMissing: "សូមបញ្ចូល ខេត្ត/ក្រុង, ស្រុក/ខណ្ឌ, និង ឃុំ/សង្កាត់។",
-          linkInvalidHeading: "តំណភ្ជាប់បានផុតកំណត់",
-          linkInvalidText: "តំណភ្ជាប់ចុះឈ្មោះនេះត្រូវបានប្រើប្រាស់រួចហើយ ឬមិនត្រឹមត្រូវ។ សូមទាក់ទងមកយើងខ្ញុំ ប្រសិនបើលោកអ្នកជឿថានេះជាកំហុស។",
           submitSuccess: "✅ បានបញ្ជូនការចុះឈ្មោះដោយជោគជ័យ!",
       },
 };
@@ -134,7 +140,6 @@ const updateProgress = () => {
     progressText.textContent = `${Math.round(progress)}% Complete`;
 };
 
-// --- Validation Logic ---
 const khmerRegex = /^(?=.* )[\u1780-\u17FF\s]+$/;
 const englishRegex = /^(?=.* )[a-zA-Z\s]+$/;
 const validateKName = () => khmerRegex.test(kNameInput.value);
@@ -167,6 +172,7 @@ const validateParentFields = () => {
 };
 
 function runFinalValidation() {
+    // ... This function remains exactly the same
     let isValid = true;
     let firstErrorElement = null;
     const validationChecks = [
@@ -212,30 +218,64 @@ function runFinalValidation() {
 // --- Event Listeners & Main Logic ---
 document.addEventListener("DOMContentLoaded", async () => {
     const key = new URLSearchParams(window.location.search).get("key");
+    const expiry = parseInt(new URLSearchParams(window.location.search).get("expiry"));
     const firebaseBaseUrl = "https://pamais-server-default-rtdb.asia-southeast1.firebasedatabase.app/";
-    
+    const mainContainer = document.querySelector(".container");
+    const expiredOverlay = document.getElementById("expired-link-overlay");
+
+    const showExpiredPage = () => {
+        mainContainer.style.display = 'none';
+        expiredOverlay.style.display = 'flex';
+        setLanguage(currentLang);
+    };
+
+    // --- Page Load Checks ---
+    // 1. Check if the link has expired by time
+    if (Date.now() > expiry) {
+        showExpiredPage();
+        return;
+    }
+    // 2. Check if the link has already been used
     try {
         const response = await fetch(`${firebaseBaseUrl}${key}.json`);
         const data = await response.json();
         if (data) {
-            document.querySelector(".container").style.display = 'none';
-            document.getElementById("expired-link-overlay").style.display = 'flex';
-            setLanguage(currentLang); // Translate the expired message
+            showExpiredPage();
             return;
         }
     } catch (error) {
         console.error("Error checking link validity:", error);
+        showExpiredPage();
+        return;
     }
-
+    
+    // --- Setup if link is valid ---
+    const countdownElement = document.getElementById("countdown");
+    const timerContainer = document.querySelector(".timer-container");
     const registrationPrompt = document.querySelector(".registration-prompt");
     const fatherInfoSection = document.getElementById("fatherInfo");
     const motherInfoSection = document.getElementById("motherInfo");
     const addressInfoSection = document.getElementById("addressInfo");
+
+    // Countdown Timer Logic
+    const timerInterval = setInterval(() => {
+        const distance = expiry - Date.now();
+        if (distance <= 0) {
+            clearInterval(timerInterval);
+            showExpiredPage();
+            return;
+        }
+        const hours = Math.floor(distance / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        countdownElement.textContent = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }, 1000);
+
     setLanguage("en");
     document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
     document.getElementById("lang-km").addEventListener("click", () => setLanguage("km"));
     document.getElementById("btnYes").addEventListener("click", () => {
-        isNewStudent = false; 
+        isNewStudent = false;
         registrationPrompt.style.display = "none";
         regForm.style.display = "block";
         fatherInfoSection.style.display = "none";
@@ -244,7 +284,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateProgress();
     });
     document.getElementById("btnNo").addEventListener("click", () => {
-        isNewStudent = true; 
+        isNewStudent = true;
         registrationPrompt.style.display = "none";
         regForm.style.display = "block";
         fatherInfoSection.style.display = "block";
@@ -285,7 +325,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = Object.fromEntries(formData.entries());
         data.timestamp = new Date().toISOString();
         delete data['terms-agree'];
-        
         try {
             const response = await fetch(`${firebaseBaseUrl}${key}.json`, {
                 method: "PUT",
