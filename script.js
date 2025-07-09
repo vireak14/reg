@@ -2,10 +2,7 @@ let isNewStudent = false;
 
 const translations = {
       en: {
-          regFormTitle: "📝 Registration Form",
-          headerSubtitle: "Please fill in your information accurately",
           agreeToTerms: 'I agree to the <a href="https://telegra.ph/Policy-07-09-6" target="_blank">School Policy</a> and <a href="https://telegra.ph/Policy-07-09-6" target="_blank">Conditions</a>',
-          // Placeholders
           kNamePlaceholder: "Enter your Khmer name",
           eNamePlaceholder: "Enter your English name",
           phonePlaceholder: "Enter phone number",
@@ -17,18 +14,18 @@ const translations = {
           communePlaceholder: "Enter commune",
           villagePlaceholder: "Enter village",
           emailPlaceholder: "Enter email address",
-          // Validation Messages
           kNameInvalid: "Must be Khmer letters with at least one space.",
           eNameInvalid: "Must be English letters with at least one space.",
           requiredField: "This field is required.",
           parentInfoMissing: "Please provide complete info (Name and Phone) for at least one parent.",
           addressInfoMissing: "Please enter Province, District, and Commune.",
+          linkInvalid: "Link is invalid or has already been used.",
+          submitSuccess: "Registration submitted successfully!",
+          linkInvalidHeading: "Link Expired", // New key
+          linkInvalidText: "This registration link has already been used or is invalid. Please contact us if you believe this is an error.", // New key
       },
       km: {
-          regFormTitle: "📝 ទម្រង់ចុះឈ្មោះ",
-          headerSubtitle: "សូមបំពេញព័ត៌មានរបស់អ្នកឱ្យបានត្រឹមត្រូវ",
           agreeToTerms: 'ខ្ញុំយល់ព្រមតាម <a href="https://telegra.ph/Policy-07-09-6" target="_blank">គោលការណ៍របស់សាលា</a> និង <a href="https://telegra.ph/Policy-07-09-6" target="_blank">លក្ខខណ្ឌដែលបានចែង</a>',
-          // Placeholders
           kNamePlaceholder: "បញ្ចូលឈ្មោះភាសាខ្មែររបស់អ្នក។",
           eNamePlaceholder: "បញ្ចូលឈ្មោះភាសាអង់គ្លេសរបស់អ្នក។",
           phonePlaceholder: "បញ្ចូលលេខទូរស័ព្ទ",
@@ -40,33 +37,32 @@ const translations = {
           communePlaceholder: "បញ្ចូលឃុំ/សង្កាត់",
           villagePlaceholder: "បញ្ចូលភូមិ",
           emailPlaceholder: "បញ្ចូលអាសយដ្ឋានអ៊ីមែល",
-          // Validation Messages
           kNameInvalid: "ត្រូវតែជាអក្សរខ្មែរ ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
           eNameInvalid: "ត្រូវតែជាអក្សរអង់គ្លេស ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
           requiredField: "សូមបំពេញប្រអប់នេះ។",
           parentInfoMissing: "សូមផ្ដល់ព័ត៌មានពេញលេញ (ឈ្មោះ និងទូរស័ព្ទ) សម្រាប់ឪពុក ឬម្តាយយ៉ាងតិចម្នាក់។",
           addressInfoMissing: "សូមបញ្ចូល ខេត្ត/ក្រុង, ស្រុក/ខណ្ឌ, និង ឃុំ/សង្កាត់។",
+          linkInvalid: "តំណភ្ជាប់មិនត្រឹមត្រូវ ឬត្រូវបានប្រើប្រាស់រួចហើយ។",
+          submitSuccess: "✅ បានបញ្ជូនការចុះឈ្មោះដោយជោគជ័យ!",
+          linkInvalidHeading: "តំណភ្ជាប់បានផុតកំណត់", // New key
+          linkInvalidText: "តំណភ្ជាប់ចុះឈ្មោះនេះត្រូវបានប្រើប្រាស់រួចហើយ ឬមិនត្រឹមត្រូវ។ សូមទាក់ទងមកយើងខ្ញុំ ប្រសិនបើលោកអ្នកជឿថានេះជាកំហុស។", // New key
       },
 };
 
 let currentLang = "en";
 
 // --- Helper Functions ---
-// MODIFIED: setLanguage can now render HTML for specific elements
 const setLanguage = (lang) => {
     currentLang = lang;
     document.querySelectorAll("[data-lang-key]").forEach(elem => {
         const key = elem.getAttribute("data-lang-key");
-        const type = elem.getAttribute("data-type"); // Check for the new data-type attribute
-
+        const type = elem.getAttribute("data-type");
         if (translations[lang]?.[key]) {
             if (type === 'html') {
-                // If the type is html, use innerHTML to render the links
                 elem.innerHTML = translations[lang][key];
             } else if (elem.tagName === 'BUTTON' && elem.querySelector('i')) {
                 elem.innerHTML = `${elem.querySelector('i').outerHTML} ${translations[lang][key]}`;
             } else {
-                // Otherwise, use textContent as before
                 elem.textContent = translations[lang][key];
             }
         }
@@ -82,7 +78,6 @@ const setLanguage = (lang) => {
     document.getElementById("lang-km").classList.toggle("active", lang === "km");
 };
 
-// ... ALL OTHER FUNCTIONS (showError, clearError, updateProgress, validation, etc.) remain exactly the same as before ...
 const showError = (input, messageKey) => {
     const formControl = input.parentElement;
     const errorDisplay = formControl.querySelector(".error-message");
@@ -125,7 +120,7 @@ const updateProgress = () => {
         const addressRequiredFields = [provinceInput, districtInput, communeInput];
         totalRequiredCount += addressRequiredFields.length;
         filledCount += addressRequiredFields.filter(input => input.value.trim() !== '').length;
-        totalRequiredCount += 1; 
+        totalRequiredCount += 1;
         const isFatherInfoProvided = fatherNameInput.value.trim() !== '' && fatherPhoneInput.value.trim() !== '';
         const isMotherInfoProvided = motherNameInput.value.trim() !== '' && motherPhoneInput.value.trim() !== '';
         if (isFatherInfoProvided || isMotherInfoProvided) {
@@ -137,6 +132,7 @@ const updateProgress = () => {
     progressText.textContent = `${Math.round(progress)}% Complete`;
 };
 
+// --- Validation Logic ---
 const khmerRegex = /^(?=.* )[\u1780-\u17FF\s]+$/;
 const englishRegex = /^(?=.* )[a-zA-Z\s]+$/;
 const validateKName = () => khmerRegex.test(kNameInput.value);
@@ -169,6 +165,7 @@ const validateParentFields = () => {
 };
 
 function runFinalValidation() {
+    // ... (This function remains exactly the same as before)
     let isValid = true;
     let firstErrorElement = null;
     const validationChecks = [
@@ -211,7 +208,28 @@ function runFinalValidation() {
     return isValid;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+// --- Event Listeners & Main Logic ---
+document.addEventListener("DOMContentLoaded", async () => {
+    // MODIFIED: This whole block is new
+    const key = new URLSearchParams(window.location.search).get("key");
+    const firebaseBaseUrl = "https://pamais-server-default-rtdb.asia-southeast1.firebasedatabase.app/";
+    
+    // Check if the link has been used before showing the form
+    try {
+        const response = await fetch(`${firebaseBaseUrl}${key}.json`);
+        const data = await response.json();
+        if (data) { // If data exists, the link has been used
+            document.querySelector(".container").style.display = 'none';
+            document.getElementById("expired-link-overlay").style.display = 'flex';
+            return; // Stop loading the rest of the page
+        }
+    } catch (error) {
+        console.error("Error checking link validity:", error);
+        // Optionally handle this error, e.g., show a generic error message
+    }
+
+
+    // --- The rest of the setup code runs only if the link is valid ---
     const registrationPrompt = document.querySelector(".registration-prompt");
     const fatherInfoSection = document.getElementById("fatherInfo");
     const motherInfoSection = document.getElementById("motherInfo");
@@ -256,6 +274,8 @@ document.addEventListener("DOMContentLoaded", () => {
     termsCheckbox.addEventListener('change', () => {
         submitBtn.disabled = !termsCheckbox.checked;
     });
+
+    // MODIFIED: Submission logic now includes success pop-up and redirect
     regForm.addEventListener("submit", async function (e) {
         e.preventDefault();
         if (!runFinalValidation()) {
@@ -267,8 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = Object.fromEntries(formData.entries());
         data.timestamp = new Date().toISOString();
         delete data['terms-agree'];
-        const key = new URLSearchParams(window.location.search).get("key");
-        const firebaseBaseUrl = "https://pamais-server-default-rtdb.asia-southeast1.firebasedatabase.app/";
+        
         try {
             const response = await fetch(`${firebaseBaseUrl}${key}.json`, {
                 method: "PUT",
@@ -276,7 +295,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(data),
             });
             if (response.ok) {
-                 window.location.href = "https://facebook.com/pamainternationalschool";
+                // Show a success message before redirecting
+                const successDiv = document.createElement('div');
+                successDiv.innerHTML = `
+                    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 6px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; z-index: 1000; max-width: 400px; width: 90%;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #059669 0%, #047857 100%); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">✓</div>
+                        <h3 style="color: #059669; margin-bottom: 16px; font-size: 1.5rem;">Success!</h3>
+                        <p style="color: #64748b; margin-bottom: 24px;">${translations[currentLang].submitSuccess}</p>
+                        <p style="color: #94a3b8; font-size: 0.9rem;">Redirecting to our Facebook page...</p>
+                    </div>
+                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+                `;
+                document.body.appendChild(successDiv);
+                
+                // Redirect after 2 seconds
+                setTimeout(() => {
+                    window.location.href = "https://facebook.com/pamainternationalschool";
+                }, 2000);
+
             } else {
                 throw new Error('Submission failed');
             }
