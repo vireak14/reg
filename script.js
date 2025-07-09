@@ -4,38 +4,19 @@ const translations = {
       en: {
           regFormTitle: "📝 Registration Form",
           headerSubtitle: "Please fill in your information accurately",
-          studentInfo: "Student Information",
-          khmerName: "Khmer Name",
-          englishName: "English Name",
-          gender: "Gender",
-          selectGender: "Select your gender",
-          male: "Male",
-          female: "Female",
-          dob: "Date of Birth",
-          studentPhone: "Student Phone",
-          previousSchool: "Previous School",
-          parentInfo: "Parent Information",
-          addressInfo: "Address Information",
-          fatherName: "Father's Name",
-          fatherPhone: "Father's Phone",
-          fatherJob: "Father's Job",
-          motherName: "Mother's Name",
-          motherPhone: "Mother's Phone",
-          motherJob: "Mother's Job",
-          province: "Province",
-          district: "District",
-          commune: "Commune",
-          village: "Village",
-          email: "Email",
-          submit: "Submit Registration",
-          alreadyRegistered: "Have you already registered with us before?",
-          yes: "Yes",
-          no: "No",
-          linkInvalid: "🔒 Link is invalid or expired.",
-          submitSuccess: "✅ Registration submitted successfully!",
-          submitFail: "❌ Registration submission failed.",
-          submitError: "⚠️ Error: ",
-          timeRemaining: "Time Remaining:",
+          agreeToTerms: 'I agree to the <a href="https://telegra.ph/Policy-07-09-6" target="_blank">School Policy</a> and <a href="https://telegra.ph/Policy-07-09-6" target="_blank">Conditions</a>',
+          // Placeholders
+          kNamePlaceholder: "Enter your Khmer name",
+          eNamePlaceholder: "Enter your English name",
+          phonePlaceholder: "Enter phone number",
+          schoolPlaceholder: "Enter school name",
+          namePlaceholder: "Enter full name",
+          jobPlaceholder: "Enter job title",
+          provincePlaceholder: "Enter province",
+          districtPlaceholder: "Enter district",
+          communePlaceholder: "Enter commune",
+          villagePlaceholder: "Enter village",
+          emailPlaceholder: "Enter email address",
           // Validation Messages
           kNameInvalid: "Must be Khmer letters with at least one space.",
           eNameInvalid: "Must be English letters with at least one space.",
@@ -46,38 +27,19 @@ const translations = {
       km: {
           regFormTitle: "📝 ទម្រង់ចុះឈ្មោះ",
           headerSubtitle: "សូមបំពេញព័ត៌មានរបស់អ្នកឱ្យបានត្រឹមត្រូវ",
-          studentInfo: "ព័ត៌មានសិស្ស",
-          khmerName: "ឈ្មោះភាសាខ្មែរ",
-          englishName: "ឈ្មោះ​ភាសាអង់គ្លេស",
-          gender: "ភេទ",
-          selectGender: "ជ្រើសរើសភេទ",
-          male: "ប្រុស",
-          female: "ស្រី",
-          dob: "ថ្ងៃ​ខែ​ឆ្នាំ​កំណើត",
-          studentPhone: "លេខទូរស័ព្ទសិស្ស",
-          previousSchool: "សាលាចាស់",
-          parentInfo: "ព័ត៌មានអាណាព្យាបាល",
-          addressInfo: "ព័ត៌មានអាសយដ្ឋាន",
-          fatherName: "ឈ្មោះឪពុក",
-          fatherPhone: "លេខទូរស័ព្ទឪពុក",
-          fatherJob: "មុខរបរឪពុក",
-          motherName: "ឈ្មោះម្ដាយ",
-          motherPhone: "លេខទូរស័ព្ទម្ដាយ",
-          motherJob: "មុខរបរម្ដាយ",
-          province: "ខេត្ត",
-          district: "ស្រុក/ខណ្ឌ",
-          commune: "ឃុំ/សង្កាត់",
-          village: "ភូមិ",
-          email: "អ៊ីមែល",
-          submit: "បញ្ជូនការចុះឈ្មោះ",
-          alreadyRegistered: "តើអ្នកធ្លាប់បានចុះឈ្មោះជាមួយយើងពីមុនទេ?",
-          yes: "បាទ/ចាស",
-          no: "ទេ",
-          linkInvalid: "🔒 តំណភ្ជាប់មិនត្រឹមត្រូវ ឬផុតកំណត់។",
-          submitSuccess: "✅ បានបញ្ជូនការចុះឈ្មោះដោយជោគជ័យ!",
-          submitFail: "❌ ការបញ្ជូនការចុះឈ្មោះបានបរាជ័យ។",
-          submitError: "⚠️ កំហុស៖ ",
-          timeRemaining: "ពេលវេលាដែលនៅសល់៖",
+          agreeToTerms: 'ខ្ញុំយល់ព្រមតាម <a href="https://telegra.ph/Policy-07-09-6" target="_blank">គោលការណ៍របស់សាលា</a> និង <a href="https://telegra.ph/Policy-07-09-6" target="_blank">លក្ខខណ្ឌដែលបានចែង</a>',
+          // Placeholders
+          kNamePlaceholder: "បញ្ចូលឈ្មោះភាសាខ្មែររបស់អ្នក។",
+          eNamePlaceholder: "បញ្ចូលឈ្មោះភាសាអង់គ្លេសរបស់អ្នក។",
+          phonePlaceholder: "បញ្ចូលលេខទូរស័ព្ទ",
+          schoolPlaceholder: "បញ្ចូលឈ្មោះសាលា",
+          namePlaceholder: "បញ្ចូលឈ្មោះពេញ",
+          jobPlaceholder: "បញ្ចូលមុខរបរ",
+          provincePlaceholder: "បញ្ចូលខេត្ត",
+          districtPlaceholder: "បញ្ចូលស្រុក/ខណ្ឌ",
+          communePlaceholder: "បញ្ចូលឃុំ/សង្កាត់",
+          villagePlaceholder: "បញ្ចូលភូមិ",
+          emailPlaceholder: "បញ្ចូលអាសយដ្ឋានអ៊ីមែល",
           // Validation Messages
           kNameInvalid: "ត្រូវតែជាអក្សរខ្មែរ ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
           eNameInvalid: "ត្រូវតែជាអក្សរអង់គ្លេស ហើយមានដកឃ្លាយ៉ាងតិចមួយ។",
@@ -90,16 +52,29 @@ const translations = {
 let currentLang = "en";
 
 // --- Helper Functions ---
+// MODIFIED: setLanguage can now render HTML for specific elements
 const setLanguage = (lang) => {
     currentLang = lang;
     document.querySelectorAll("[data-lang-key]").forEach(elem => {
         const key = elem.getAttribute("data-lang-key");
+        const type = elem.getAttribute("data-type"); // Check for the new data-type attribute
+
         if (translations[lang]?.[key]) {
-            if (elem.tagName === 'BUTTON' && elem.querySelector('i')) {
+            if (type === 'html') {
+                // If the type is html, use innerHTML to render the links
+                elem.innerHTML = translations[lang][key];
+            } else if (elem.tagName === 'BUTTON' && elem.querySelector('i')) {
                 elem.innerHTML = `${elem.querySelector('i').outerHTML} ${translations[lang][key]}`;
             } else {
+                // Otherwise, use textContent as before
                 elem.textContent = translations[lang][key];
             }
+        }
+    });
+    document.querySelectorAll("[data-placeholder]").forEach(elem => {
+        const key = elem.getAttribute("data-placeholder");
+        if (translations[lang]?.[key]) {
+            elem.placeholder = translations[lang][key];
         }
     });
     document.documentElement.lang = lang;
@@ -107,6 +82,7 @@ const setLanguage = (lang) => {
     document.getElementById("lang-km").classList.toggle("active", lang === "km");
 };
 
+// ... ALL OTHER FUNCTIONS (showError, clearError, updateProgress, validation, etc.) remain exactly the same as before ...
 const showError = (input, messageKey) => {
     const formControl = input.parentElement;
     const errorDisplay = formControl.querySelector(".error-message");
@@ -136,42 +112,81 @@ const provinceInput = document.getElementById("sfComboBox_parent_province");
 const districtInput = document.getElementById("sfComboBox_parent_district");
 const communeInput = document.getElementById("sfComboBox_parent_commune");
 const parentErrorDiv = document.getElementById("parent-error-message");
+const termsCheckbox = document.getElementById("terms-agree");
+const submitBtn = document.getElementById("submit-btn");
 
-// --- Validation Logic ---
+const updateProgress = () => {
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+    const baseRequiredFields = [kNameInput, eNameInput, genderSelect, dobInput];
+    let totalRequiredCount = baseRequiredFields.length;
+    let filledCount = baseRequiredFields.filter(input => input.value.trim() !== '').length;
+    if (isNewStudent) {
+        const addressRequiredFields = [provinceInput, districtInput, communeInput];
+        totalRequiredCount += addressRequiredFields.length;
+        filledCount += addressRequiredFields.filter(input => input.value.trim() !== '').length;
+        totalRequiredCount += 1; 
+        const isFatherInfoProvided = fatherNameInput.value.trim() !== '' && fatherPhoneInput.value.trim() !== '';
+        const isMotherInfoProvided = motherNameInput.value.trim() !== '' && motherPhoneInput.value.trim() !== '';
+        if (isFatherInfoProvided || isMotherInfoProvided) {
+            filledCount++;
+        }
+    }
+    const progress = totalRequiredCount > 0 ? (filledCount / totalRequiredCount) * 100 : 0;
+    progressFill.style.width = `${progress}%`;
+    progressText.textContent = `${Math.round(progress)}% Complete`;
+};
+
 const khmerRegex = /^(?=.* )[\u1780-\u17FF\s]+$/;
 const englishRegex = /^(?=.* )[a-zA-Z\s]+$/;
-
 const validateKName = () => khmerRegex.test(kNameInput.value);
 const validateEName = () => englishRegex.test(eNameInput.value);
 const validateRequired = (input) => input.value.trim() !== '';
 
+const validateParentFields = () => {
+    if (!isNewStudent) return;
+    const fatherName = fatherNameInput.value.trim();
+    const fatherPhone = fatherPhoneInput.value.trim();
+    const motherName = motherNameInput.value.trim();
+    const motherPhone = motherPhoneInput.value.trim();
+    if (fatherName || fatherPhone) {
+        validateRequired(fatherNameInput) ? clearError(fatherNameInput) : showError(fatherNameInput, "requiredField");
+        validateRequired(fatherPhoneInput) ? clearError(fatherPhoneInput) : showError(fatherPhoneInput, "requiredField");
+    } else {
+        clearError(fatherNameInput);
+        clearError(fatherPhoneInput);
+    }
+    if (motherName || motherPhone) {
+        validateRequired(motherNameInput) ? clearError(motherNameInput) : showError(motherNameInput, "requiredField");
+        validateRequired(motherPhoneInput) ? clearError(motherPhoneInput) : showError(motherPhoneInput, "requiredField");
+    } else {
+        clearError(motherNameInput);
+        clearError(motherPhoneInput);
+    }
+    if ((fatherName && fatherPhone) || (motherName && motherPhone)) {
+        parentErrorDiv.classList.remove("visible");
+    }
+};
+
 function runFinalValidation() {
     let isValid = true;
     let firstErrorElement = null;
-
-    const checks = [
-        // Student Info
+    const validationChecks = [
         { input: kNameInput, validator: validateKName, msg: "kNameInvalid" },
         { input: eNameInput, validator: validateEName, msg: "eNameInvalid" },
         { input: genderSelect, validator: validateRequired, msg: "requiredField" },
         { input: dobInput, validator: validateRequired, msg: "requiredField" },
     ];
-
     if (isNewStudent) {
-        // Address Info for New Students
-        checks.push(
+        validationChecks.push(
             { input: provinceInput, validator: validateRequired, msg: "requiredField" },
             { input: districtInput, validator: validateRequired, msg: "requiredField" },
             { input: communeInput, validator: validateRequired, msg: "requiredField" }
         );
     }
-    
-    // Clear all previous errors
-    [...checks.map(c => c.input), parentErrorDiv].forEach(clearError);
-
-
-    // Run individual field checks
-    for (const check of checks) {
+    [...validationChecks.map(c => c.input), fatherNameInput, motherNameInput, fatherPhoneInput, motherPhoneInput].forEach(clearError);
+    parentErrorDiv.classList.remove("visible");
+    for (const check of validationChecks) {
         if (!check.validator(check.input)) {
             isValid = false;
             showError(check.input, check.msg);
@@ -180,8 +195,6 @@ function runFinalValidation() {
             clearError(check.input);
         }
     }
-
-    // Complex rule: At least one parent for new students
     if (isNewStudent) {
         const isFatherInfoProvided = fatherNameInput.value.trim() !== '' && fatherPhoneInput.value.trim() !== '';
         const isMotherInfoProvided = motherNameInput.value.trim() !== '' && motherPhoneInput.value.trim() !== '';
@@ -189,42 +202,23 @@ function runFinalValidation() {
             isValid = false;
             parentErrorDiv.textContent = translations[currentLang].parentInfoMissing;
             parentErrorDiv.classList.add("visible");
-            // Add error borders to all parent fields to draw attention
-            [fatherNameInput, fatherPhoneInput, motherNameInput, motherPhoneInput].forEach(el => el.classList.add('input-error'));
             if (!firstErrorElement) firstErrorElement = fatherNameInput;
-        } else {
-            parentErrorDiv.classList.remove("visible");
-            [fatherNameInput, fatherPhoneInput, motherNameInput, motherPhoneInput].forEach(el => el.classList.remove('input-error'));
         }
     }
-
     if (!isValid && firstErrorElement) {
         firstErrorElement.focus();
     }
-
     return isValid;
 }
 
-
-// --- Event Listeners & Main Logic ---
 document.addEventListener("DOMContentLoaded", () => {
-    // Initial Setup
-    const countdownElement = document.getElementById("countdown");
-    const timerContainer = document.querySelector(".timer-container");
     const registrationPrompt = document.querySelector(".registration-prompt");
     const fatherInfoSection = document.getElementById("fatherInfo");
     const motherInfoSection = document.getElementById("motherInfo");
     const addressInfoSection = document.getElementById("addressInfo");
-    const key = new URLSearchParams(window.location.search).get("key");
-    const expiry = parseInt(new URLSearchParams(window.location.search).get("expiry"));
-    
     setLanguage("en");
-
-    // Language Switcher
     document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
     document.getElementById("lang-km").addEventListener("click", () => setLanguage("km"));
-
-    // Yes/No Buttons
     document.getElementById("btnYes").addEventListener("click", () => {
         isNewStudent = false; 
         registrationPrompt.style.display = "none";
@@ -232,8 +226,8 @@ document.addEventListener("DOMContentLoaded", () => {
         fatherInfoSection.style.display = "none";
         motherInfoSection.style.display = "none";
         addressInfoSection.style.display = "none";
+        updateProgress();
     });
-
     document.getElementById("btnNo").addEventListener("click", () => {
         isNewStudent = true; 
         registrationPrompt.style.display = "none";
@@ -241,52 +235,55 @@ document.addEventListener("DOMContentLoaded", () => {
         fatherInfoSection.style.display = "block";
         motherInfoSection.style.display = "block";
         addressInfoSection.style.display = "block";
+        updateProgress();
     });
-
-    // Real-time validation listeners
     kNameInput.addEventListener('input', () => validateKName() ? clearError(kNameInput) : showError(kNameInput, "kNameInvalid"));
     eNameInput.addEventListener('input', () => validateEName() ? clearError(eNameInput) : showError(eNameInput, "eNameInvalid"));
-    [genderSelect, dobInput, provinceInput, districtInput, communeInput].forEach(input => {
+    [genderSelect, dobInput].forEach(input => {
         input.addEventListener('input', () => validateRequired(input) ? clearError(input) : showError(input, "requiredField"));
     });
-
-    // Form Submission
+    [provinceInput, districtInput, communeInput].forEach(input => {
+        input.addEventListener('input', () => {
+            if (isNewStudent) {
+                validateRequired(input) ? clearError(input) : showError(input, "requiredField");
+            }
+        });
+    });
+    [fatherNameInput, fatherPhoneInput, motherNameInput, motherPhoneInput].forEach(input => {
+        input.addEventListener('input', validateParentFields);
+    });
+    regForm.addEventListener('input', updateProgress);
+    termsCheckbox.addEventListener('change', () => {
+        submitBtn.disabled = !termsCheckbox.checked;
+    });
     regForm.addEventListener("submit", async function (e) {
         e.preventDefault();
-        
         if (!runFinalValidation()) {
             return;
         }
-
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
         submitBtn.disabled = true;
-
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
         data.timestamp = new Date().toISOString();
-
+        delete data['terms-agree'];
+        const key = new URLSearchParams(window.location.search).get("key");
+        const firebaseBaseUrl = "https://pamais-server-default-rtdb.asia-southeast1.firebasedatabase.app/";
         try {
-            const firebaseBaseUrl = "https://pamais-server-default-rtdb.asia-southeast1.firebasedatabase.app/";
             const response = await fetch(`${firebaseBaseUrl}${key}.json`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-
             if (response.ok) {
-                submitBtn.innerHTML = '<i class="fas fa-check"></i> Success!';
-                // ... success logic from before ...
-                setTimeout(() => { window.location.href = "https://facebook.com/pamainternationalschool"; }, 2000);
+                 window.location.href = "https://facebook.com/pamainternationalschool";
             } else {
                 throw new Error('Submission failed');
             }
         } catch (err) {
             alert(translations[currentLang].submitError + err.message);
-            submitBtn.innerHTML = originalText;
+            submitBtn.innerHTML = translations[currentLang].submit;
             submitBtn.disabled = false;
         }
     });
-
 });

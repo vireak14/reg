@@ -369,8 +369,8 @@
       .form-control select {
           font-family: 'Inter', sans-serif;
           width: 100%;
-          padding: 10px 14px; /* Reduced padding */
-          border: 1px solid #e5e7eb; /* Thinner border */
+          padding: 8px 14px; /* Reduced top/bottom padding */
+          border: 1px solid #e5e7eb;
           border-radius: 6px;
           font-size: 0.95rem;
           background: white;
@@ -426,11 +426,62 @@
           border-radius: 6px; /* Rounded */
           position: relative;
           overflow: hidden;
+          border: none; /* Ensure no border */
+          color: white; /* Ensure text is white */
       }
+      
+      /* ADDED: Styles for the disabled submit button */
+      .submit-btn:disabled {
+          background: #9ca3af;
+          cursor: not-allowed;
+          transform: translateY(0);
+          box-shadow: none;
+      }
+      
+      .submit-btn:disabled:hover {
+          transform: translateY(0);
+          box-shadow: none;
+      }
+      
       
       .submit-btn:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
+      }
+      
+      /* ADDED: Styles for the new agreement section */
+      .agreement-section {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-top: 20px;
+          padding: 12px;
+          background-color: #f8fafc;
+          border: 1px solid #e5e7eb;
+          border-radius: 6px;
+      }
+      
+      .agreement-section input[type="checkbox"] {
+          width: 1.2em;
+          height: 1.2em;
+          accent-color: #4f46e5;
+      }
+      
+      .agreement-section label {
+          font-size: 0.9rem;
+          color: #374151;
+      }
+      
+      /* ADDED: Styles for the new links inside the label */
+      .agreement-section label a {
+          color: #4f46e5;
+          text-decoration: underline;
+          font-weight: 600;
+          transition: color 0.2s ease;
+      }
+      
+      .agreement-section label a:hover {
+          color: #3730a3;
       }
       
       .pulse-animation {

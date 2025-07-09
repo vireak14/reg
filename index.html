@@ -24,7 +24,7 @@
 
         <div class="controls">
             <div class="timer-container">
-                <i class="fas fa-clock timer-icon"></i>
+                <i class="fa-solid fa-clock timer-icon"></i>
                 <span class="timer-label" data-lang-key="timeRemaining">Time Remaining:</span>
                 <span id="countdown">--:--:--</span>
             </div>
@@ -40,10 +40,10 @@
                 <p data-lang-key="alreadyRegistered">Have you already registered with us before?</p>
                 <div class="btn-group">
                     <button id="btnYes" class="btn btn-outlined" data-lang-key="yes">
-                        <i class="fas fa-check"></i> Yes
+                        <i class="fa-solid fa-check"></i> Yes
                     </button>
                     <button id="btnNo" class="btn btn-contained pulse-animation" data-lang-key="no">
-                        <i class="fas fa-user-plus"></i> No
+                        <i class="fa-solid fa-user-plus"></i> No
                     </button>
                 </div>
             </div>
@@ -60,17 +60,17 @@
                     <div class="section">
                         <div class="section-content">
                             <h2 data-lang-key="studentInfo">
-                                <i class="fas fa-user-graduate"></i>Student Information
+                                <i class="fa-solid fa-user-graduate"></i>Student Information
                             </h2>
                             <div class="form-grid">
                                 <div class="form-control">
                                     <label for="txt_kName" data-lang-key="khmerName">Khmer Name</label>
-                                    <input type="text" id="txt_kName" name="txt_kName" placeholder="Enter your Khmer name" required />
+                                    <input type="text" id="txt_kName" name="txt_kName" data-placeholder="kNamePlaceholder" required />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_eName" data-lang-key="englishName">English Name</label>
-                                    <input type="text" id="txt_eName" name="txt_eName" placeholder="Enter your English name" required />
+                                    <input type="text" id="txt_eName" name="txt_eName" data-placeholder="eNamePlaceholder" required />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
@@ -89,11 +89,11 @@
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_student_phone" data-lang-key="studentPhone">Student Phone</label>
-                                    <input type="tel" id="txt_student_phone" name="txt_student_phone" placeholder="Enter your phone number" />
+                                    <input type="tel" id="txt_student_phone" name="txt_student_phone" data-placeholder="phonePlaceholder" />
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_previous_school" data-lang-key="previousSchool">Previous School</label>
-                                    <input type="text" id="txt_previous_school" name="txt_previous_school" placeholder="Enter your previous school" />
+                                    <input type="text" id="txt_previous_school" name="txt_previous_school" data-placeholder="schoolPlaceholder" />
                                 </div>
                             </div>
                         </div>
@@ -102,22 +102,22 @@
                     <div id="fatherInfo" class="section">
                         <div class="section-content">
                             <h2 data-lang-key="fatherInfo">
-                                <i class="fas fa-user-tie"></i>Father Information
+                                <i class="fa-solid fa-user-tie"></i>Father Information
                             </h2>
                             <div class="form-grid">
                                 <div class="form-control">
                                     <label for="txt_father_name" data-lang-key="fatherName">Father's Name</label>
-                                    <input type="text" id="txt_father_name" name="txt_father_name" placeholder="Enter father's name" />
+                                    <input type="text" id="txt_father_name" name="txt_father_name" data-placeholder="namePlaceholder" />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_father_phone" data-lang-key="fatherPhone">Father's Phone</label>
-                                    <input type="tel" id="txt_father_phone" name="txt_father_phone" placeholder="Enter father's phone" />
+                                    <input type="tel" id="txt_father_phone" name="txt_father_phone" data-placeholder="phonePlaceholder" />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_father_job" data-lang-key="fatherJob">Father's Job</label>
-                                    <input type="text" id="txt_father_job" name="txt_father_job" placeholder="Enter father's job" />
+                                    <input type="text" id="txt_father_job" name="txt_father_job" data-placeholder="jobPlaceholder" />
                                 </div>
                             </div>
                         </div>
@@ -126,22 +126,22 @@
                     <div id="motherInfo" class="section">
                         <div class="section-content">
                             <h2 data-lang-key="motherInfo">
-                                <i class="fas fa-female"></i>Mother Information
+                                <i class="fa-solid fa-person-dress"></i>Mother Information
                             </h2>
                             <div class="form-grid">
                                 <div class="form-control">
                                     <label for="txt_mother_name" data-lang-key="motherName">Mother's Name</label>
-                                    <input type="text" id="txt_mother_name" name="txt_mother_name" placeholder="Enter mother's name" />
+                                    <input type="text" id="txt_mother_name" name="txt_mother_name" data-placeholder="namePlaceholder" />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_mother_phone" data-lang-key="motherPhone">Mother's Phone</label>
-                                    <input type="tel" id="txt_mother_phone" name="txt_mother_phone" placeholder="Enter mother's phone" />
+                                    <input type="tel" id="txt_mother_phone" name="txt_mother_phone" data-placeholder="phonePlaceholder" />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="txt_mother_job" data-lang-key="motherJob">Mother's Job</label>
-                                    <input type="text" id="txt_mother_job" name="txt_mother_job" placeholder="Enter mother's job" />
+                                    <input type="text" id="txt_mother_job" name="txt_mother_job" data-placeholder="jobPlaceholder" />
                                 </div>
                             </div>
                         </div>
@@ -149,40 +149,47 @@
 
                     <div id="addressInfo" class="section">
                         <div class="section-content">
-                            <h2 data-lang-key="addressInfo">
-                                <i class="fas fa-map-marker-alt"></i>Address Information
-                            </h2>
+                              <h2 data-lang-key="addressInfo">
+                                        <i class="fa-solid fa-location-dot"></i>Address Information
+                                    </h2>
                             <div class="form-grid">
                                 <div class="form-control">
                                     <label for="sfComboBox_parent_province" data-lang-key="province">Province</label>
-                                    <input type="text" id="sfComboBox_parent_province" name="sfComboBox_parent_province" placeholder="Enter province" />
+                                    <input type="text" id="sfComboBox_parent_province" name="sfComboBox_parent_province" data-placeholder="provincePlaceholder" />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="sfComboBox_parent_district" data-lang-key="district">District</label>
-                                    <input type="text" id="sfComboBox_parent_district" name="sfComboBox_parent_district" placeholder="Enter district" />
+                                    <input type="text" id="sfComboBox_parent_district" name="sfComboBox_parent_district" data-placeholder="districtPlaceholder" />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="sfComboBox_parent_commune" data-lang-key="commune">Commune</label>
-                                    <input type="text" id="sfComboBox_parent_commune" name="sfComboBox_parent_commune" placeholder="Enter commune" />
+                                    <input type="text" id="sfComboBox_parent_commune" name="sfComboBox_parent_commune" data-placeholder="communePlaceholder" />
                                     <div class="error-message"></div>
                                 </div>
                                 <div class="form-control">
                                     <label for="sfComboBox_parent_village" data-lang-key="village">Village</label>
-                                    <input type="text" id="sfComboBox_parent_village" name="sfComboBox_parent_village" placeholder="Enter village" />
+                                    <input type="text" id="sfComboBox_parent_village" name="sfComboBox_parent_village" data-placeholder="villagePlaceholder" />
                                 </div>
                                 <div class="form-control">
                                     <label for="f_email" data-lang-key="email">Email</label>
-                                    <input type="email" id="f_email" name="f_email" placeholder="Enter email address" />
+                                    <input type="email" id="f_email" name="f_email" data-placeholder="emailPlaceholder" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div id="parent-error-message" class="error-message" style="text-align: center; margin-top: 10px;"></div>
-                <button type="submit" class="btn btn-contained submit-btn" data-lang-key="submit">
-                    <i class="fas fa-paper-plane"></i> Submit Registration
+                
+                <div class="agreement-section">
+                    <input type="checkbox" id="terms-agree">
+                    <label for="terms-agree" data-lang-key="agreeToTerms" data-type="html">I agree to the Terms and Conditions</label>
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn btn-contained submit-btn" data-lang-key="submit" disabled>
+                    <i class="fa-solid fa-paper-plane"></i> Submit Registration
                 </button>
             </form>
         </div>
